@@ -2,7 +2,6 @@ provider "google" {
   version = "~> 3.67.0"
   project = var.project
   region  = var.region
-  credentials = file("credentials.json")
 }
 
 # Create build and run
@@ -14,12 +13,12 @@ resource "null_resource" "gcloud" {
 
 # Deploy image to Cloud Run
 resource "google_cloud_run_service" "mywebapp" {
-  name     = "mywebapp"
-  location = "us-central1"
+  name     = var.prefix
+  location = var.region
   template {
     spec {
       containers {
-        image = "gcr.io/terraform-9999/tomcat"
+        image = "gcr.io/manifest-access-320809/tomcat"
       }
     }
   }
